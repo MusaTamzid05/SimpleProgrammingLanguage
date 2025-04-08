@@ -8,6 +8,12 @@ void run_tests();
 void run_repl();
 
 int main(int argc, char** argv) {
+    if(argc == 2) {
+        if(argv[1] == std::string("test")) 
+            run_tests();
+
+        return 0;
+    }
     run_repl();
     return 0;
 }

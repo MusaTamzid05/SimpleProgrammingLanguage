@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 #include "lexer_test.h"
 
 void run_tests();
@@ -15,7 +16,12 @@ void run_tests() {
     tests.push_back(new testing::NextTokenTest1());
 
     for(testing::TestCase* test : tests) {
-        test->run();
+        try {
+            test->run();
+        } catch(std::runtime_error& err) {
+            std::cerr << err.what() <<  "\n";
+        }
+
         delete test;
 
     }

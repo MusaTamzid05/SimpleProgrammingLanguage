@@ -32,35 +32,36 @@ Token Lexer::next_token() {
 
     switch(ch) {
         case '=':
-            token = Token(TokenType::ASSIGN, "=");
+            token = Token(token_type::ASSIGN, "=");
             break;
         case ';':
-            token = Token(TokenType::SEMICOLON, ";");
+            token = Token(token_type::SEMICOLON, ";");
             break;
         case '+':
-            token = Token(TokenType::PLUS, "+");
+            token = Token(token_type::PLUS, "+");
             break;
         case '-':
-            token = Token(TokenType::COMMA, ",");
+            token = Token(token_type::COMMA, ",");
             break;
         case '(':
-            token = Token(TokenType::LPAREN, "(");
+            token = Token(token_type::LPAREN, "(");
             break;
         case ')':
-            token = Token(TokenType::RPAREN, ")");
+            token = Token(token_type::RPAREN, ")");
             break;
         case '{':
-            token = Token(TokenType::LBRACE, "{");
+            token = Token(token_type::LBRACE, "{");
             break;
         case '}':
-            token = Token(TokenType::RBRACE, "}");
+            token = Token(token_type::RBRACE, "}");
             break;
         case 0:
-            token = Token(TokenType::EOF_TYPE, "");
+            token = Token(token_type::EOF_TYPE, "");
             break;
 
     }
 
+    read_char();
     return token;
 
 }

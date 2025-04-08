@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace TokenType {
+namespace token_type {
     const std::string ILLEGAL = "ILLEGAL";
     const std::string EOF_TYPE = "EOF";
 

@@ -11,6 +11,14 @@ struct Lexer {
     void read_char();
     Token next_token();
 
+    void skip_whitespace();
+    bool is_letter(char target_ch) const;
+    std::string read_identifier();
+
+
+    bool is_digit(char target_ch) const;
+    std::string read_number();
+
     std::string input;
     char ch;
     int position; // index of last read char

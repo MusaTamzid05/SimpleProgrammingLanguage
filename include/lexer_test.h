@@ -11,6 +11,13 @@ namespace testing {
         virtual void run();
     };
 
+    struct NextTokenTest2 : TestCase {
+        NextTokenTest2();
+        virtual ~NextTokenTest2();
+
+        virtual void run();
+    };
+
 }
 
 #endif

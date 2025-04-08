@@ -2,6 +2,7 @@
 #define TOKEN_H
 
 #include <string>
+#include <map>
 
 namespace token_type {
     const std::string ILLEGAL = "ILLEGAL";
@@ -34,6 +35,9 @@ struct Token {
 
     std::string type;
     std::string literal;
+
+    static std::map<std::string, std::string> KEYWORD_MAP;
+    static std::string lookup(const std::string& ident);
 };
 
 #endif

@@ -22,6 +22,7 @@ int main(int argc, char** argv) {
 void run_tests() {
     std::vector<testing::TestCase*> tests;
     tests.push_back(new testing::NextTokenTest1());
+    tests.push_back(new testing::NextTokenTest2());
 
     for(testing::TestCase* test : tests) {
         try {

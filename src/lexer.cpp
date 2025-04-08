@@ -56,8 +56,12 @@ Token Lexer::next_token() {
             token = Token(token_type::RBRACE, "}");
             break;
         case 0:
-            token = Token(token_type::EOF_TYPE, "");
+            token = Token(token_type::EOF_TYPE, std::string() + ch);
             break;
+        default:
+            token = Token(token_type::ILLEGAL, std::string() + ch);
+            break;
+
 
     }
 

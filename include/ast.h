@@ -2,6 +2,7 @@
 #define AST_H
 
 #include <string>
+#include <vector>
 #include "token.h"
 
 struct Node {
@@ -45,5 +46,17 @@ struct LetStatement : Statement {
     Identifier* name;
     Expression* expression;
 };
+
+
+// Main Program that tracks all the statements
+struct Program : Node {
+    Program();
+    virtual ~Program();
+    virtual std::string token_literal() const;
+
+    std::vector<Statement*> statements;
+
+};
+
 
 #endif

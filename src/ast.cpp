@@ -26,3 +26,20 @@ LetStatement::~LetStatement() {
 std::string LetStatement::token_literal() const {
     return token.literal + " " + name->token_literal() + "\n";
 }
+
+Program::Program() {
+
+}
+
+Program::~Program() {
+
+}
+
+
+
+std::string Program::token_literal() const {
+    if(statements.size())
+        return statements[0]->token_literal();
+
+    return "";
+}

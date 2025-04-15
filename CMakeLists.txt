@@ -13,6 +13,7 @@ SET(SOURCE_FILES
     src/lexer_test.cpp
     src/ast.cpp
     src/parser.cpp
+    src/parser_test.cpp
     )
 
 

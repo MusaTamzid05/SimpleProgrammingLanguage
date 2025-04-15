@@ -11,7 +11,7 @@ Identifier::~Identifier() {
 
 
 std::string Identifier::token_literal() const {
-    return token.literal + " " + value;
+    return token.literal;
 }
 
 LetStatement::LetStatement(const Token& token):token(token), expression(nullptr) {
@@ -24,7 +24,7 @@ LetStatement::~LetStatement() {
 
 
 std::string LetStatement::token_literal() const {
-    return token.literal + " " + name->token_literal() + "\n";
+    return token.literal;
 }
 
 Program::Program() {

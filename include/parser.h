@@ -12,13 +12,23 @@ struct Parser {
     Parser(Lexer* lexer);
     virtual ~Parser();
 
-    Program* parse_programe();
+    Statement* parse_statement();
+    Statement* parse_let_statement();
+    Program* parse_program();
+
+    bool expect_peek(const Token& token);
+    bool peek_token_is(const Token& token) const;
+    void peek_error(const Token& token);
+
+
     void next_token();
 
     Lexer* lexer;
 
     Token current_token;
     Token peek_token;
+
+    std::vector<std::string> error_messages;
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include "lexer.h"
 #include "lexer_test.h"
+#include "parser_test.h"
 
 void run_tests();
 void run_repl();
@@ -23,6 +24,7 @@ void run_tests() {
     std::vector<testing::TestCase*> tests;
     tests.push_back(new testing::NextTokenTest1());
     tests.push_back(new testing::NextTokenTest2());
+    tests.push_back(new testing::ParseLetStatementIdentifierTest());
 
     for(testing::TestCase* test : tests) {
         try {

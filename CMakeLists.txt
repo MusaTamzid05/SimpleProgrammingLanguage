@@ -11,6 +11,7 @@ SET(SOURCE_FILES
     src/lexer.cpp
     src/test_case.cpp
     src/lexer_test.cpp
+    src/ast.cpp
     )
 
 

@@ -4,6 +4,7 @@
 #include "lexer.h"
 #include "lexer_test.h"
 #include "parser_test.h"
+#include "parser.h"
 
 void run_tests();
 void run_repl();
@@ -52,19 +53,18 @@ void run_repl() {
             continue;
         }
 
-        Lexer lexer(input);
+        Lexer* lexer = new Lexer(input);
+        Parser* parser = new Parser(lexer);
+        Program* program = parser->parse_program();
 
-        bool file_end_found = false;
+        for(std::string error_message : parser->error_messages) 
+            std::cerr << error_message << "\n";
 
-        while(file_end_found == false) {
-            Token token = lexer.next_token();
+        for(Statement* statement : program->statements) 
+            std::cout  << statement->token_literal() << "\n";
+        
 
-            std::cout << "type " << token.type << " literal " << token.literal << "\n";
 
-            if(token.type == token_type::EOF_TYPE) 
-                file_end_found = true;
-
-        }
         
 
     }

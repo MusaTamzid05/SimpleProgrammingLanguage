@@ -25,6 +25,9 @@ Statement* Parser::parse_let_statement() {
 
     statement->name = new Identifier(current_token, current_token.literal);
 
+    if(expect_peek(token_type::ASSIGN) == false) 
+        return nullptr;
+
     // move till ';' is found
 
     bool end_found = false;

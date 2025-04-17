@@ -13,6 +13,9 @@ Statement* Parser::parse_statement() {
     if(current_token.type == token_type::LET)
         return parse_let_statement();
 
+    else if(current_token.type == token_type::RETURN)
+        return parse_return_statement();
+
     return nullptr;
 }
 
@@ -49,6 +52,10 @@ Statement* Parser::parse_let_statement() {
     
 
     return statement;
+}
+
+Statement* Parser::parse_return_statement() {
+    return nullptr;
 }
 
 

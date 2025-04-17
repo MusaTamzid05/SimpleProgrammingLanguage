@@ -26,6 +26,7 @@ namespace token_type {
     // Keywords
     const std::string FUNCTION = "FUNCTION";
     const std::string LET = "LET";
+    const std::string RETURN = "RETURN";
 
 }
 

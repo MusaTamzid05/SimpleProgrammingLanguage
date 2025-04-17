@@ -27,6 +27,19 @@ std::string LetStatement::token_literal() const {
     return token.literal;
 }
 
+ReturnStatement::ReturnStatement(const Token& token):
+    token(token),
+    return_value(nullptr) {}
+
+ReturnStatement::~ReturnStatement() {
+
+}
+
+std::string ReturnStatement::token_literal() const {
+    return token.literal;
+}
+
+
 Program::Program() {
 
 }

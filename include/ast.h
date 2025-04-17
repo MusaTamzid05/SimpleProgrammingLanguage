@@ -47,6 +47,19 @@ struct LetStatement : Statement {
     Expression* expression;
 };
 
+struct ReturnStatement : Statement {
+    // return (token) x (expression)
+
+    ReturnStatement(const Token& token);
+    virtual ~ReturnStatement();
+
+    virtual std::string token_literal() const;
+
+    Token token;
+    Expression* return_value;
+
+};
+
 
 // Main Program that tracks all the statements
 struct Program : Node {

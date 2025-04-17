@@ -14,6 +14,7 @@ struct Parser {
 
     Statement* parse_statement();
     Statement* parse_let_statement();
+    Statement* parse_return_statement();
     Program* parse_program();
 
     bool expect_peek(const Token& token);

@@ -3,6 +3,7 @@
 std::map<std::string, std::string> Token::KEYWORD_MAP = {
     {"fn", token_type::FUNCTION},
     {"let", token_type::LET},
+    {"return", token_type::RETURN},
 
 };
 

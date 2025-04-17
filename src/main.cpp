@@ -26,6 +26,7 @@ void run_tests() {
     tests.push_back(new testing::NextTokenTest1());
     tests.push_back(new testing::NextTokenTest2());
     tests.push_back(new testing::ParseLetStatementIdentifierTest());
+    tests.push_back(new testing::ReturnStatementTest());
 
     for(testing::TestCase* test : tests) {
         try {

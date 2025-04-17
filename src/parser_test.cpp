@@ -58,4 +58,45 @@ namespace testing {
 
         return true;
     }
+
+
+    ReturnStatementTest::ReturnStatementTest():TestCase("ReturnStatement Test") {
+
+    }
+
+    ReturnStatementTest::~ReturnStatementTest() {
+
+    }
+
+    void ReturnStatementTest::run() {
+        std::string input = R"(
+            return x;
+            return 10;
+            return  foobar;
+            )";
+
+        Lexer* lexer = new Lexer(input);
+        Parser* parser = new Parser(lexer);
+        Program* program = parser->parse_program();
+
+        if(program->statements.size() != 3) 
+            throw std::runtime_error("Expected 3 statements, got " + std::to_string(program->statements.size()));
+
+        std::vector<std::string> tests = {"x", "10", "foobar"};
+
+        for(unsigned int i = 0; i < tests.size(); i += 1) {
+            Statement* statement = program->statements[i];
+            ReturnStatement* return_statement = dynamic_cast<ReturnStatement*>(statement);
+
+            if(return_statement->token_literal() != "return") 
+                throw std::runtime_error("Expected token literal to be 'return' got " + return_statement->token_literal());
+
+
+        }
+
+        pass = true;
+    }
+
+
+
 }

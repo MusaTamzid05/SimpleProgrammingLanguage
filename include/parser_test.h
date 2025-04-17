@@ -14,6 +14,14 @@ namespace testing {
     };
 
 
+    struct ReturnStatementTest : TestCase {
+        ReturnStatementTest();
+        virtual ~ReturnStatementTest();
+
+        virtual void run();
+    };
+
+
 }
 
 #endif

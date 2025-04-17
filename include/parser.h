@@ -6,7 +6,6 @@
 #include "ast.h"
 
 
-// Top Down Pratt Parser
 struct Parser {
 
     Parser(Lexer* lexer);

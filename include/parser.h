@@ -17,9 +17,9 @@ struct Parser {
     Statement* parse_return_statement();
     Program* parse_program();
 
-    bool expect_peek(const Token& token);
-    bool peek_token_is(const Token& token) const;
-    void peek_error(const Token& token);
+    bool expect_peek(const std::string& token_type);
+    bool peek_token_is(const std::string& token_type) const;
+    void peek_error(const std::string& token_type);
 
 
     void next_token();

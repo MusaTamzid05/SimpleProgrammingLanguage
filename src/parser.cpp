@@ -60,22 +60,22 @@ Statement* Parser::parse_return_statement() {
 
 
 
-bool Parser::peek_token_is(const Token& token) const {
-    return peek_token.type == token.type;
+bool Parser::peek_token_is(const std::string& token_type) const {
+    return peek_token.type == token_type;
 }
 
-bool Parser::expect_peek(const Token& token) {
-    if(peek_token_is(token)) {
+bool Parser::expect_peek(const std::string& token_type) {
+    if(peek_token_is(token_type)) {
         next_token();
         return true;
     }
 
-    peek_error(token);
+    peek_error(token_type);
     return false;
 }
 
-void Parser::peek_error(const Token& token)  {
-    std::string message = "Expect peek token to be " + token.type + " got " + peek_token.type;
+void Parser::peek_error(const std::string& token_type)  {
+    std::string message = "Expect peek token to be " + token_type + " got " + peek_token.type;
     error_messages.push_back(message);
 }
 

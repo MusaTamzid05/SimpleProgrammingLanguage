@@ -55,7 +55,33 @@ Statement* Parser::parse_let_statement() {
 }
 
 Statement* Parser::parse_return_statement() {
-    return nullptr;
+    // return 123;
+    ReturnStatement* statement = new ReturnStatement(current_token);
+    next_token();
+
+
+    // move till ';' is found
+
+    bool end_found = false;
+
+    while(end_found == false) {
+        if(current_token.type == token_type::SEMICOLON) {
+            end_found = true;
+            continue;
+        }
+
+        if(current_token.type == token_type::EOF_TYPE) {
+            error_messages.push_back("';' missing in the end.");
+            return nullptr;
+        }
+
+        next_token();
+
+    }
+    
+
+    return statement;
+    
 }
 
 

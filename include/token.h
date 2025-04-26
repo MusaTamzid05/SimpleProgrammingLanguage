@@ -14,6 +14,15 @@ namespace token_type {
 
     const std::string ASSIGN = "=";
     const std::string PLUS = "+";
+    const std::string MINUS = "-";
+    const std::string ASTERISK = "*";
+    const std::string SLASH = "/";
+
+    const std::string LT = "<";
+    const std::string GT = ">";
+    const std::string BANG = "!";
+    const std::string EQ = "==";
+    const std::string NOT_EQ = "!=";
 
     // Delimiters
     const std::string COMMA = ",";
@@ -27,6 +36,10 @@ namespace token_type {
     const std::string FUNCTION = "FUNCTION";
     const std::string LET = "LET";
     const std::string RETURN = "RETURN";
+    const std::string TRUE = "TRUE";
+    const std::string FALSE = "FALSE";
+    const std::string IF = "IF";
+    const std::string ELSE = "ELSE";
 
 }
 
@@ -36,6 +49,7 @@ struct Token {
 
     std::string type;
     std::string literal;
+
 
     static std::map<std::string, std::string> KEYWORD_MAP;
     static std::string lookup(const std::string& ident);

@@ -19,6 +19,8 @@ struct Lexer {
     bool is_digit(char target_ch) const;
     std::string read_number();
 
+    char peek_char() const;
+
     std::string input;
     char ch;
     int position; // index of last read char

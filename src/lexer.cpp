@@ -34,7 +34,14 @@ Token Lexer::next_token() {
 
     switch(ch) {
         case '=':
-            token = Token(token_type::ASSIGN, "=");
+            if(peek_char() == '=') {
+                char current_char = ch;
+                read_char();
+                std::string eq_literal = (std::string() + current_char) + (std::string() + current_char);
+                token = Token(token_type::EQ, eq_literal);
+            } else {
+                token = Token(token_type::ASSIGN, "=");
+            }
             break;
         case ';':
             token = Token(token_type::SEMICOLON, ";");
@@ -42,8 +49,17 @@ Token Lexer::next_token() {
         case '+':
             token = Token(token_type::PLUS, "+");
             break;
+        case '-':
+            token = Token(token_type::MINUS, "-");
+            break;
         case ',':
             token = Token(token_type::COMMA, ",");
+            break;
+        case '*':
+            token = Token(token_type::ASTERISK, "*");
+            break;
+        case '/':
+            token = Token(token_type::SLASH, "/");
             break;
         case '(':
             token = Token(token_type::LPAREN, "(");
@@ -57,8 +73,25 @@ Token Lexer::next_token() {
         case '}':
             token = Token(token_type::RBRACE, "}");
             break;
+        case '>':
+            token = Token(token_type::GT, ">");
+            break;
+        case '<':
+            token = Token(token_type::LT, "<");
+            break;
+        case '!':
+            if(peek_char() == '=') {
+                char current_char = ch;
+                read_char();
+                std::string eq_literal = (std::string() + current_char) + (std::string() + ch);
+                token = Token(token_type::NOT_EQ, eq_literal);
+            } else {
+                token = Token(token_type::BANG, "!");
+            }
+
+            break;
         case 0:
-            token = Token(token_type::EOF_TYPE, std::string() + ch);
+            token = Token(token_type::EOF_TYPE, "");
             break;
         default:
 
@@ -84,6 +117,14 @@ Token Lexer::next_token() {
     read_char();
     return token;
 
+}
+
+
+char Lexer::peek_char() const {
+    if(read_position >= input.size())
+        return 0;
+
+    return input[read_position];
 }
 
 bool Lexer::is_letter(char target_ch) const {

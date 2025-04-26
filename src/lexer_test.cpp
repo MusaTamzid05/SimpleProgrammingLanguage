@@ -60,6 +60,18 @@ namespace testing {
         };
 
         let result = add(five, ten);
+
+        !-/*5;
+        5 < 10 > 5;
+
+        if (5 < 10) {
+            return true;
+        } else {
+            return false;
+        }
+
+        10 == 10;
+        10 != 9;
         )";
 
         Lexer lexer(input);
@@ -99,7 +111,47 @@ namespace testing {
             {token_type::COMMA, ","},
             {token_type::IDENT, "ten"},
             {token_type::RPAREN, ")"},
-            {token_type::SEMICOLON, ";"}
+            {token_type::SEMICOLON, ";"},
+
+
+            {token_type::BANG, "!"},
+            {token_type::MINUS, "-"},
+            {token_type::SLASH, "/"},
+            {token_type::ASTERISK, "*"},
+            {token_type::INT, "5"},
+            {token_type::SEMICOLON, ";"},
+            {token_type::INT, "5"},
+            {token_type::LT, "<"},
+            {token_type::INT, "10"},
+            {token_type::GT, ">"},
+            {token_type::INT, "5"},
+            {token_type::SEMICOLON, ";"},
+            {token_type::IF, "if"},
+            {token_type::LPAREN, "("},
+            {token_type::INT, "5"},
+            {token_type::LT, "<"},
+            {token_type::INT, "10"},
+            {token_type::RPAREN, ")"},
+            {token_type::LBRACE, "{"},
+            {token_type::RETURN, "return"},
+            {token_type::TRUE, "true"},
+            {token_type::SEMICOLON, ";"},
+            {token_type::RBRACE, "}"},
+            {token_type::ELSE, "else"},
+            {token_type::LBRACE, "{"},
+            {token_type::RETURN, "return"},
+            {token_type::FALSE, "false"},
+            {token_type::SEMICOLON, ";"},
+            {token_type::RBRACE, "}"},
+            {token_type::INT, "10"},
+            {token_type::EQ, "=="},
+            {token_type::INT, "10"},
+            {token_type::SEMICOLON, ";"},
+            {token_type::INT, "10"},
+            {token_type::NOT_EQ, "!="},
+            {token_type::INT, "9"},
+            {token_type::SEMICOLON, ";"},
+            {token_type::EOF_TYPE, ""}
         };
 
 

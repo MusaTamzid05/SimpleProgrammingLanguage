@@ -22,6 +22,14 @@ namespace testing {
     };
 
 
+    struct IdentifierExpressionTest: TestCase {
+        IdentifierExpressionTest();
+        virtual ~IdentifierExpressionTest();
+
+        virtual void run();
+    };
+
+
 }
 
 #endif

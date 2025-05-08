@@ -98,5 +98,39 @@ namespace testing {
     }
 
 
+    IdentifierExpressionTest::IdentifierExpressionTest():TestCase("IdentiferExpressionStatement Test") {
+
+    }
+
+    IdentifierExpressionTest::~IdentifierExpressionTest() {
+
+    }
+
+    void IdentifierExpressionTest::run() {
+        std::string input = "foobar;";
+
+        Lexer* lexer = new Lexer(input);
+        Parser* parser = new Parser(lexer);
+        Program* program = parser->parse_program();
+
+        if(program->statements.size() != 1) 
+            throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
+
+        ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+        Identifier* identifier = dynamic_cast<Identifier*>(expression_statement->expression);
+
+
+        if(identifier->value != "foobar") 
+            throw std::runtime_error("Expected identifier.value to be 'foobar', got " + identifier->value);
+
+        if(identifier->token_literal()!= "foobar") 
+            throw std::runtime_error("Expected identifier.token_literal() to be 'foobar', got " + identifier->token_literal());
+
+
+
+        pass = true;
+    }
+
+
 
 }

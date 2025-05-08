@@ -20,7 +20,7 @@ struct Expression: Node {
     virtual std::string token_literal() const = 0;
 };
 
-struct Identifier : Node {
+struct Identifier : Expression {
     // let x
 
     Identifier(const Token& token, const std::string& value);
@@ -68,6 +68,18 @@ struct Program : Node {
     virtual std::string token_literal() const;
 
     std::vector<Statement*> statements;
+
+};
+
+struct ExpressionStatement : Statement {
+    ExpressionStatement(const Token& token);
+    virtual ~ExpressionStatement();
+
+
+    virtual std::string token_literal() const;
+
+    Token token;
+    Expression* expression;
 
 };
 

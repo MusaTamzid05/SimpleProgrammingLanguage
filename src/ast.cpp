@@ -56,3 +56,16 @@ std::string Program::token_literal() const {
 
     return "";
 }
+
+ExpressionStatement::ExpressionStatement(const Token& token):token(token), expression(nullptr) {
+
+}
+
+ExpressionStatement::~ExpressionStatement() {}
+
+
+std::string ExpressionStatement::token_literal() const {
+    return token.literal;
+}
+
+

@@ -14,6 +14,7 @@ SET(SOURCE_FILES
     src/ast.cpp
     src/parser.cpp
     src/parser_test.cpp
+    src/expression_parser.cpp
     )
 
 

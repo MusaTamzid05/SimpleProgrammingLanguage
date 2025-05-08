@@ -3,6 +3,8 @@
 Parser::Parser(Lexer* lexer):lexer(lexer) {
     next_token();
     next_token();
+
+    prefix_expression_parsers[token_type::IDENT] = new IdentifierExpressionParser();
 }
 
 Parser::~Parser() {
@@ -16,7 +18,7 @@ Statement* Parser::parse_statement() {
     else if(current_token.type == token_type::RETURN)
         return parse_return_statement();
 
-    return nullptr;
+    return parse_expression_statement();
 }
 
 Statement* Parser::parse_let_statement() {
@@ -86,6 +88,7 @@ Statement* Parser::parse_return_statement() {
 
 
 
+
 bool Parser::peek_token_is(const std::string& token_type) const {
     return peek_token.type == token_type;
 }
@@ -125,3 +128,29 @@ Program* Parser::parse_program() {
 
     return program;
 }
+
+
+ExpressionStatement* Parser::parse_expression_statement() {
+    ExpressionStatement* statement = new ExpressionStatement(current_token);
+    statement->expression = parse_expression(Precedence::LOWEST);
+
+    if(peek_token_is(token_type::SEMICOLON)) 
+        next_token();
+
+    
+    return statement;
+}
+
+
+Expression* Parser::parse_expression(const Precedence& precedence) {
+    if(prefix_expression_parsers.find(current_token.type) == prefix_expression_parsers.end())
+        return nullptr;
+
+    PrefixExpressionParser* prefix_express_parser =  prefix_expression_parsers[current_token.type];
+    Expression* left_expression = prefix_express_parser->parse(current_token);
+
+   return left_expression ;
+
+}
+
+

@@ -5,6 +5,7 @@ Parser::Parser(Lexer* lexer):lexer(lexer) {
     next_token();
 
     prefix_expression_parsers[token_type::IDENT] = new IdentifierExpressionParser();
+    prefix_expression_parsers[token_type::INT] = new IntegerExpressionParser();
 }
 
 Parser::~Parser() {

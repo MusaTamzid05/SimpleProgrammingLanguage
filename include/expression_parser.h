@@ -13,8 +13,17 @@ struct IdentifierExpressionParser : PrefixExpressionParser {
     virtual ~IdentifierExpressionParser();
 
     Expression* parse(const Token& token) const;
+};
+
+
+struct IntegerExpressionParser : PrefixExpressionParser {
+    IntegerExpressionParser();
+    virtual ~IntegerExpressionParser();
+
+    Expression* parse(const Token& token) const;
 
 };
+
 
 
 #endif

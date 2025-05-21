@@ -83,5 +83,16 @@ struct ExpressionStatement : Statement {
 
 };
 
+struct IntegerLiteral : Expression {
+    IntegerLiteral(const Token& token);
+    virtual ~IntegerLiteral();
+
+    std::string token_literal() const;
+
+    Token token;
+    int value;
+
+};
+
 
 #endif

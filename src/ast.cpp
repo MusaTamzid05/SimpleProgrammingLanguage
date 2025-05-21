@@ -69,3 +69,14 @@ std::string ExpressionStatement::token_literal() const {
 }
 
 
+IntegerLiteral::IntegerLiteral(const Token& token):token(token) {}
+
+IntegerLiteral::~IntegerLiteral() {
+
+}
+
+std::string IntegerLiteral::token_literal() const {
+    return token.literal;
+}
+
+

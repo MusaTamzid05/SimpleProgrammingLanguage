@@ -132,5 +132,38 @@ namespace testing {
     }
 
 
+    IntegerExpressionTest::IntegerExpressionTest():TestCase("IntergerExpressionStatement Test") {
+
+    }
+
+    IntegerExpressionTest::~IntegerExpressionTest() {
+
+    }
+
+    void IntegerExpressionTest::run() {
+        std::string input = "5;";
+
+        Lexer* lexer = new Lexer(input);
+        Parser* parser = new Parser(lexer);
+        Program* program = parser->parse_program();
+
+        if(program->statements.size() != 1) 
+            throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
+
+        ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+        IntegerLiteral* literal = dynamic_cast<IntegerLiteral*>(expression_statement->expression);
+
+
+        if(literal->value != 5) 
+            throw std::runtime_error("Expected interger_literal.value to be '5', got " + std::to_string(literal->value));
+
+        if(literal->token_literal()!= "5") 
+            throw std::runtime_error("Expected identifier.token_literal() to be '5', got " + literal->token_literal());
+
+
+
+        pass = true;
+    }
+
 
 }

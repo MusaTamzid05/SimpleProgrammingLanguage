@@ -29,6 +29,12 @@ namespace testing {
         virtual void run();
     };
 
+    struct IntegerExpressionTest: TestCase {
+        IntegerExpressionTest();
+        virtual ~IntegerExpressionTest();
+
+        virtual void run();
+    };
 
 }
 

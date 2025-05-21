@@ -28,6 +28,7 @@ void run_tests() {
     tests.push_back(new testing::ParseLetStatementIdentifierTest());
     tests.push_back(new testing::ReturnStatementTest());
     tests.push_back(new testing::IdentifierExpressionTest());
+    tests.push_back(new testing::IntegerExpressionTest());
 
     for(testing::TestCase* test : tests) {
         try {

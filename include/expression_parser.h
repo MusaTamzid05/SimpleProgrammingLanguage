@@ -3,6 +3,8 @@
 
 #include "ast.h"
 
+struct Parser;
+
 
 struct PrefixExpressionParser {
     virtual Expression* parse(const Token& token) = 0;
@@ -25,5 +27,14 @@ struct IntegerExpressionParser : PrefixExpressionParser {
 };
 
 
+struct PrefixTokenExpressionParser : PrefixExpressionParser {
+    PrefixTokenExpressionParser(Parser* parser);
+    virtual ~PrefixTokenExpressionParser();
+
+    Expression* parse(const Token& token);
+
+    Parser* parser;
+
+};
 
 #endif

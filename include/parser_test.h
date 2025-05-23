@@ -36,6 +36,16 @@ namespace testing {
         virtual void run();
     };
 
+    bool test_interger_expression_helper(Expression* expression, int value);
+
+
+    struct PrefixTokenExpressionTest: TestCase {
+        PrefixTokenExpressionTest();
+        virtual ~PrefixTokenExpressionTest();
+
+        virtual void run();
+    };
+
 }
 
 #endif

@@ -104,5 +104,18 @@ struct IntegerLiteral : Expression {
 
 };
 
+struct PrefixTokenExpression : Expression {
+    // !5, -3
+    PrefixTokenExpression(const Token& token);
+    virtual ~PrefixTokenExpression();
+
+    std::string token_literal() const;
+    std::string string() const;
+
+    Token token;
+    std::string operator_;
+    Expression* right;
+};
+
 
 #endif

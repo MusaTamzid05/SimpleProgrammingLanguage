@@ -130,3 +130,30 @@ std::string IntegerLiteral::token_literal() const {
 std::string IntegerLiteral::string() const {
     return token.literal;
 }
+
+PrefixTokenExpression::PrefixTokenExpression(const Token& token):
+    token(token), 
+    operator_(""), 
+    right(nullptr) {
+}
+
+PrefixTokenExpression::~PrefixTokenExpression() {
+
+}
+
+
+std::string PrefixTokenExpression::token_literal() const {
+    return token.literal;
+}
+
+
+std::string PrefixTokenExpression::string() const {
+    std::string output = "";
+    output += "(";
+    output += operator_;
+    output += right->string();
+    output += ")";
+
+    return output;
+}
+

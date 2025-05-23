@@ -11,9 +11,13 @@
 struct Parser {
 
     enum Precedence {
-        LOWEST,
+        LOWEST = 1,
         EQUALS,
-        LESS_GREATER
+        LESS_GREATER,
+        SUM,
+        PRODUCT,
+        PREFIX,
+        CALL
     };
 
     Parser(Lexer* lexer);

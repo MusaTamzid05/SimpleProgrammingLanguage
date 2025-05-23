@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
         return 0;
     }
     run_repl();
+
     return 0;
 }
 
@@ -29,6 +30,7 @@ void run_tests() {
     tests.push_back(new testing::ReturnStatementTest());
     tests.push_back(new testing::IdentifierExpressionTest());
     tests.push_back(new testing::IntegerExpressionTest());
+    tests.push_back(new testing::PrefixTokenExpressionTest());
 
     for(testing::TestCase* test : tests) {
         try {

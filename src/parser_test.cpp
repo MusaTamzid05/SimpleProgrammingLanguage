@@ -165,5 +165,67 @@ namespace testing {
         pass = true;
     }
 
+    bool test_interger_expression_helper(Expression* expression, int value) {
+        IntegerLiteral* literal = dynamic_cast<IntegerLiteral*>(expression);
+
+        if(literal->value != value) 
+            return false;
+
+        if(literal->token_literal() != std::to_string(value)) 
+            return false;
+
+        return true;
+
+    }
+
+    PrefixTokenExpressionTest::PrefixTokenExpressionTest():TestCase("PrefixTokenExpressionTest Test") {
+
+    }
+
+    PrefixTokenExpressionTest::~PrefixTokenExpressionTest() {
+
+    }
+
+    void PrefixTokenExpressionTest::run() {
+
+        struct TestData {
+            TestData(
+                    const std::string& input,
+                    const std::string& operator_,
+                    int value
+                    ):input(input), operator_(operator_), value(value) {}
+
+            std::string input;
+            std::string operator_;
+            int value;
+        };
+
+        std::vector<TestData> tests;
+        tests.push_back(TestData("!3", "!", 3));
+        tests.push_back(TestData("-7", "-", 7));
+
+        for(TestData test : tests) {
+
+            Lexer* lexer = new Lexer(test.input);
+            Parser* parser = new Parser(lexer);
+            Program* program = parser->parse_program();
+
+            if(program->statements.size() != 1) 
+                throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
+
+            ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+            PrefixTokenExpression* prefix_statement = dynamic_cast<PrefixTokenExpression*>(expression_statement->expression);
+
+            if(prefix_statement->operator_ != test.operator_)
+                throw std::runtime_error("Expected prefix_token_expression.operator_ to be " + test.operator_ + " got " + prefix_statement->operator_);
+
+            if(!test_interger_expression_helper(prefix_statement->right, test.value))
+                throw std::runtime_error("prefix_token_expression.value did not match");
+        }
+
+        pass = true;
+
+
+    }
 
 }

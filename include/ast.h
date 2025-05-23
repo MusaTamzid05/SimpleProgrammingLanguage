@@ -7,17 +7,20 @@
 
 struct Node {
     virtual std::string token_literal() const = 0;
+    virtual std::string string() const = 0;
 };
 
 struct Statement : Node {
     // statement is something that does not return a value
     virtual std::string token_literal() const = 0 ;
+    virtual std::string string() const = 0;
 };
 
 
 struct Expression: Node {
     // expression does return a value
     virtual std::string token_literal() const = 0;
+    virtual std::string string() const = 0;
 };
 
 struct Identifier : Expression {
@@ -27,6 +30,7 @@ struct Identifier : Expression {
     virtual ~Identifier();
 
     virtual std::string token_literal() const;
+    virtual std::string string() const;
 
     Token token;
     std::string value;
@@ -41,10 +45,11 @@ struct LetStatement : Statement {
     virtual ~LetStatement();
 
     virtual std::string token_literal() const;
+    virtual std::string string() const;
 
     Token token;
     Identifier* name;
-    Expression* expression;
+    Expression* value;
 };
 
 struct ReturnStatement : Statement {
@@ -54,6 +59,7 @@ struct ReturnStatement : Statement {
     virtual ~ReturnStatement();
 
     virtual std::string token_literal() const;
+    virtual std::string string() const;
 
     Token token;
     Expression* return_value;
@@ -66,6 +72,8 @@ struct Program : Node {
     Program();
     virtual ~Program();
     virtual std::string token_literal() const;
+    std::string string() const;
+
 
     std::vector<Statement*> statements;
 
@@ -77,6 +85,7 @@ struct ExpressionStatement : Statement {
 
 
     virtual std::string token_literal() const;
+    std::string string() const;
 
     Token token;
     Expression* expression;
@@ -88,6 +97,7 @@ struct IntegerLiteral : Expression {
     virtual ~IntegerLiteral();
 
     std::string token_literal() const;
+    std::string string() const;
 
     Token token;
     int value;

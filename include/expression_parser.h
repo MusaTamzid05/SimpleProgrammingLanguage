@@ -5,14 +5,14 @@
 
 
 struct PrefixExpressionParser {
-    virtual Expression* parse(const Token& token) const  = 0;
+    virtual Expression* parse(const Token& token) = 0;
 };
 
 struct IdentifierExpressionParser : PrefixExpressionParser {
     IdentifierExpressionParser();
     virtual ~IdentifierExpressionParser();
 
-    Expression* parse(const Token& token) const;
+    Expression* parse(const Token& token);
 };
 
 
@@ -20,7 +20,7 @@ struct IntegerExpressionParser : PrefixExpressionParser {
     IntegerExpressionParser();
     virtual ~IntegerExpressionParser();
 
-    Expression* parse(const Token& token) const;
+    Expression* parse(const Token& token);
 
 };
 

@@ -10,7 +10,7 @@ IdentifierExpressionParser::~IdentifierExpressionParser() {
 
 }
 
-Expression* IdentifierExpressionParser::parse(const Token& token) const {
+Expression* IdentifierExpressionParser::parse(const Token& token) {
     Identifier* identifier = new Identifier(token, token.literal);
     return identifier;
 
@@ -26,7 +26,7 @@ IntegerExpressionParser::~IntegerExpressionParser() {
 }
 
 
-Expression* IntegerExpressionParser::parse(const Token& token) const {
+Expression* IntegerExpressionParser::parse(const Token& token) {
     IntegerLiteral* literal = new IntegerLiteral(token);
     int value = stoi(token.literal);
     literal->value = value;

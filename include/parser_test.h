@@ -46,6 +46,14 @@ namespace testing {
         virtual void run();
     };
 
+
+    struct InfixTokenExpressionTest: TestCase {
+        InfixTokenExpressionTest();
+        virtual ~InfixTokenExpressionTest();
+
+        virtual void run();
+    };
+
 }
 
 #endif

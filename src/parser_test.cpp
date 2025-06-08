@@ -228,4 +228,70 @@ namespace testing {
 
     }
 
+
+    InfixTokenExpressionTest::InfixTokenExpressionTest():TestCase("Infix token test") {
+
+    }
+
+    InfixTokenExpressionTest::~InfixTokenExpressionTest() {
+
+    }
+
+    void InfixTokenExpressionTest::run() {
+
+        struct TestData {
+            TestData(
+                    const std::string& input,
+                    int left_value,
+                    const std::string& operator_,
+                    int right_value
+                    ):input(input),
+            left_value(left_value),
+            operator_(operator_),
+            right_value(right_value) {}
+
+            std::string input;
+            int left_value;
+            std::string operator_;
+            int right_value;
+        };
+
+        std::vector<TestData> tests;
+        tests.push_back(TestData("5 + 5", 5, "+" , 5));
+        tests.push_back(TestData("5 - 5", 5, "-" , 5));
+        tests.push_back(TestData("5 * 5", 5, "*", 5));
+        tests.push_back(TestData("5 / 5", 5, "/", 5));
+        tests.push_back(TestData("5 > 5", 5, ">", 5));
+        tests.push_back(TestData("5 < 5", 5, "<", 5));
+        tests.push_back(TestData("5 == 5", 5, "==", 5));
+        tests.push_back(TestData("5 != 5", 5, "!=", 5));
+
+        for(TestData test : tests) {
+
+            Lexer* lexer = new Lexer(test.input);
+            Parser* parser = new Parser(lexer);
+            Program* program = parser->parse_program();
+
+            if(program->statements.size() != 1) 
+                throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
+
+            ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+            InfixTokenExpression* infix_statement = dynamic_cast<InfixTokenExpression*>(expression_statement->expression);
+
+
+            if(!test_interger_expression_helper(infix_statement->left, test.left_value))
+                throw std::runtime_error("infix left did not match");
+
+            if(infix_statement->operator_ != test.operator_)
+                throw std::runtime_error("infix operator did not match");
+
+            if(!test_interger_expression_helper(infix_statement->right, test.right_value))
+                throw std::runtime_error("infix right did not match");
+        }
+
+        pass = true;
+
+
+    }
+
 }

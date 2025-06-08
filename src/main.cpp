@@ -31,6 +31,7 @@ void run_tests() {
     tests.push_back(new testing::IdentifierExpressionTest());
     tests.push_back(new testing::IntegerExpressionTest());
     tests.push_back(new testing::PrefixTokenExpressionTest());
+    tests.push_back(new testing::InfixTokenExpressionTest());
 
     for(testing::TestCase* test : tests) {
         try {

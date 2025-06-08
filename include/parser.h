@@ -37,6 +37,9 @@ struct Parser {
     bool peek_token_is(const std::string& token_type) const;
     void peek_error(const std::string& token_type);
 
+    Precedence peek_precedence() const;
+    Precedence current_precedence() const;
+
 
     void next_token();
 
@@ -46,8 +49,8 @@ struct Parser {
     Token peek_token;
 
     std::vector<std::string> error_messages;
-
     std::map<std::string, PrefixExpressionParser*> prefix_expression_parsers;
+    static std::map<std::string, Precedence> precedence_map;
 };
 
 #endif

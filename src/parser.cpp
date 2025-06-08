@@ -1,5 +1,16 @@
 #include "parser.h"
 
+std::map<std::string, Parser::Precedence> precedence_map = {
+    {token_type::EQ, Parser::Precedence::EQUALS}, // lower
+    {token_type::NOT_EQ, Parser::Precedence::EQUALS},
+    {token_type::LT, Parser::Precedence::LESS_GREATER},
+    {token_type::GT, Parser::Precedence::LESS_GREATER},
+    {token_type::PLUS, Parser::Precedence::SUM },
+    {token_type::MINUS, Parser::Precedence::SUM },
+    {token_type::SLASH, Parser::Precedence::PRODUCT},
+    {token_type::ASTERISK, Parser::Precedence::PRODUCT},
+};
+
 Parser::Parser(Lexer* lexer):lexer(lexer) {
     next_token();
     next_token();
@@ -155,5 +166,32 @@ Expression* Parser::parse_expression(const Precedence& precedence) {
    return left_expression ;
 
 }
+
+Parser::Precedence Parser::peek_precedence() const {
+    std::string peek_token_type = peek_token.type;
+    auto it = precedence_map.find(peek_token_type);
+
+    if(it == precedence_map.end())
+        return Precedence::LOWEST;
+
+    return it->second;
+}
+
+
+Parser::Precedence Parser::current_precedence() const {
+    std::string current_token_type = current_token.type;
+    auto it = precedence_map.find(current_token_type);
+
+    if(it == precedence_map.end())
+        return Precedence::LOWEST;
+
+    return it->second;
+}
+
+
+
+
+
+
 
 

@@ -157,3 +157,44 @@ std::string PrefixTokenExpression::string() const {
     return output;
 }
 
+
+
+InfixTokenExpression::InfixTokenExpression(Expression* left, const Token& token):
+    left(left),
+    token(token),
+    right(nullptr) {
+        operator_ = token.literal;
+    }
+
+
+InfixTokenExpression::~InfixTokenExpression() {
+
+}
+
+
+std::string InfixTokenExpression::token_literal() const {
+    return token.literal;
+}
+
+
+std::string InfixTokenExpression::string() const {
+    std::string output = "";
+    output += "(";
+    output += left->string();
+    output += operator_;
+    output += right->string();
+    output += ")";
+
+    return output;
+
+}
+
+
+
+
+
+
+
+
+
+

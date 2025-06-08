@@ -118,4 +118,21 @@ struct PrefixTokenExpression : Expression {
 };
 
 
+struct InfixTokenExpression : Expression {
+    // 5 + 3
+    InfixTokenExpression(Expression* left, const Token& token);
+    virtual ~InfixTokenExpression();
+
+    std::string token_literal() const;
+    std::string string() const;
+
+    Token token;
+
+    Expression* left;
+    std::string operator_;
+    Expression* right;
+};
+
+
+
 #endif

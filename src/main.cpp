@@ -32,6 +32,7 @@ void run_tests() {
     tests.push_back(new testing::IntegerExpressionTest());
     tests.push_back(new testing::PrefixTokenExpressionTest());
     tests.push_back(new testing::InfixTokenExpressionTest());
+    tests.push_back(new testing::OperatorPrecedenceTest());
 
     for(testing::TestCase* test : tests) {
         try {

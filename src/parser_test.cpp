@@ -294,4 +294,71 @@ namespace testing {
 
     }
 
+    OperatorPrecedenceTest::OperatorPrecedenceTest():TestCase("Operator Precedence Test") {
+
+    }
+
+
+
+    OperatorPrecedenceTest::~OperatorPrecedenceTest() {
+
+    }
+
+    void OperatorPrecedenceTest::run() {
+        struct OperatorPrecedenceTestData {
+            std::string input;
+            std::string output;
+        };
+
+        std::vector<OperatorPrecedenceTestData> tests = {
+			{"-a * b", "((-a) * b)"},
+			{"!-a", "(!(-a))"},
+			{"a + b + c", "((a + b) + c)"},
+			{"a + b - c", "((a + b) - c)"},
+			{"a * b * c", "((a * b) * c)"},
+			{"a * b / c", "((a * b) / c)"},
+			{"a + b / c", "(a + (b / c))"},
+			{"a + b * c + d / e - f", "(((a + (b * c)) + (d / e)) - f)"},
+			{"3 + 4; -5 * 5", "(3 + 4)((-5) * 5)"},
+			{"5 > 4 == 3 < 4", "((5 > 4) == (3 < 4))"},
+			{"5 < 4 != 3 > 4", "((5 < 4) != (3 > 4))"},
+			{"3 + 4 * 5 == 3 * 1 + 4 * 5", "((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))"},
+			{"3 + 4 * 5 == 3 * 1 + 4 * 5", "((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))"}
+		};
+
+        for(OperatorPrecedenceTestData test : tests) {
+            Lexer* lexer = new Lexer(test.input);
+            Parser* parser = new Parser(lexer);
+            Program* program = parser->parse_program();
+
+            std::string actual = program->string();
+
+            if(actual != test.output)
+                throw std::runtime_error("Expected =>" + test.output +  " actual =>" + actual );
+        }
+
+        pass = true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

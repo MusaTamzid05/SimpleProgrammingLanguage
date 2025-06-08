@@ -181,7 +181,7 @@ std::string InfixTokenExpression::string() const {
     std::string output = "";
     output += "(";
     output += left->string();
-    output += operator_;
+    output += " " + operator_ + " ";
     output += right->string();
     output += ")";
 

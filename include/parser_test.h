@@ -54,6 +54,13 @@ namespace testing {
         virtual void run();
     };
 
+
+    struct OperatorPrecedenceTest : TestCase {
+        OperatorPrecedenceTest();
+        virtual ~OperatorPrecedenceTest();
+        virtual void run();
+
+    };
 }
 
 #endif

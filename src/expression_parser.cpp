@@ -70,7 +70,7 @@ InfixTokenExpressionParser::~InfixTokenExpressionParser() {
 Expression* InfixTokenExpressionParser::parse(Expression* left) {
     // 1 + 2, current token will be '+'   when it is called
     InfixTokenExpression* expression = new InfixTokenExpression(left, parser->current_token);
-    Parser::Precedence precedence = parser->peek_precedence();
+    Parser::Precedence precedence = parser->current_precedence();
     parser->next_token();
 
     expression->right = parser->parse_expression(precedence);

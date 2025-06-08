@@ -65,8 +65,12 @@ void run_repl() {
         for(std::string error_message : parser->error_messages) 
             std::cerr << error_message << "\n";
 
+        /*
         for(Statement* statement : program->statements) 
             std::cout  << statement->token_literal() << "\n";
+        */
+
+        std::cout << program->string() << "\n";
         
 
 

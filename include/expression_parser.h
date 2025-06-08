@@ -32,7 +32,15 @@ struct PrefixTokenExpressionParser : PrefixExpressionParser {
     virtual ~PrefixTokenExpressionParser();
 
     Expression* parse(const Token& token);
+    Parser* parser;
 
+};
+
+struct InfixTokenExpressionParser {
+    InfixTokenExpressionParser(Parser* parser);
+    virtual ~InfixTokenExpressionParser();
+
+    Expression* parse(Expression* left);
     Parser* parser;
 
 };

@@ -1,6 +1,6 @@
 #include "parser.h"
 
-std::map<std::string, Parser::Precedence> precedence_map = {
+std::map<std::string, Parser::Precedence> Parser::precedence_map = {
     {token_type::EQ, Parser::Precedence::EQUALS}, // lower
     {token_type::NOT_EQ, Parser::Precedence::EQUALS},
     {token_type::LT, Parser::Precedence::LESS_GREATER},
@@ -19,6 +19,18 @@ Parser::Parser(Lexer* lexer):lexer(lexer) {
     prefix_expression_parsers[token_type::INT] = new IntegerExpressionParser();
     prefix_expression_parsers[token_type::BANG] = new PrefixTokenExpressionParser(this);
     prefix_expression_parsers[token_type::MINUS] = new PrefixTokenExpressionParser(this);
+
+
+    infix_expression_parsers[token_type::PLUS] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::MINUS] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::SLASH] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::ASTERISK] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::EQ] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::NOT_EQ] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::LT] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::GT] = new InfixTokenExpressionParser(this);
+
+
 }
 
 Parser::~Parser() {
@@ -157,13 +169,32 @@ ExpressionStatement* Parser::parse_expression_statement() {
 
 
 Expression* Parser::parse_expression(const Precedence& precedence) {
+    // 1 + 2
     if(prefix_expression_parsers.find(current_token.type) == prefix_expression_parsers.end())
         return nullptr;
 
     PrefixExpressionParser* prefix_express_parser =  prefix_expression_parsers[current_token.type];
-    Expression* left_expression = prefix_express_parser->parse(current_token);
+    Expression* left_expression = prefix_express_parser->parse(current_token); // left = 1
 
-   return left_expression ;
+
+    while(!peek_token_is(token_type::SEMICOLON) && precedence < peek_precedence()) {
+        std::string peek_token_type = peek_token.type;
+
+        auto it = infix_expression_parsers.find(peek_token_type); // infix parser for peek token '+'
+
+        if(it == infix_expression_parsers.end())
+            return left_expression;
+
+        InfixTokenExpressionParser* infix_parser = it->second;
+        next_token(); // current token now is '+'
+
+        left_expression = infix_parser->parse(left_expression);
+
+        
+
+
+    }
+    return left_expression;
 
 }
 

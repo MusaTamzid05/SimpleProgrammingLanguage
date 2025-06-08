@@ -2,6 +2,8 @@
 #include <string>
 #include "parser.h"
 
+
+
 IdentifierExpressionParser::IdentifierExpressionParser() {
 
 }
@@ -53,3 +55,29 @@ Expression* PrefixTokenExpressionParser::parse(const Token& token) {
     return prefix_expression;
 
 }
+
+
+InfixTokenExpressionParser::InfixTokenExpressionParser(Parser* parser):
+    parser(parser) {
+
+    }
+
+
+InfixTokenExpressionParser::~InfixTokenExpressionParser() {
+
+}
+
+Expression* InfixTokenExpressionParser::parse(Expression* left) {
+    // 1 + 2, current token will be '+'   when it is called
+    InfixTokenExpression* expression = new InfixTokenExpression(left, parser->current_token);
+    Parser::Precedence precedence = parser->peek_precedence();
+    parser->next_token();
+
+    expression->right = parser->parse_expression(precedence);
+    return expression;
+}
+
+
+
+
+

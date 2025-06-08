@@ -50,6 +50,7 @@ struct Parser {
 
     std::vector<std::string> error_messages;
     std::map<std::string, PrefixExpressionParser*> prefix_expression_parsers;
+    std::map<std::string, InfixTokenExpressionParser*> infix_expression_parsers;
     static std::map<std::string, Precedence> precedence_map;
 };
 

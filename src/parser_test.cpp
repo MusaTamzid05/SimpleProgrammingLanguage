@@ -276,6 +276,17 @@ namespace testing {
                 throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
 
             ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+
+            if(!test_infix_expression(
+                        expression_statement->expression,
+                        test.left_value,
+                        test.operator_,
+                        test.right_value
+                        ))  
+
+                throw std::runtime_error("could not parse infix expression");
+
+            /*
             InfixTokenExpression* infix_statement = dynamic_cast<InfixTokenExpression*>(expression_statement->expression);
 
 
@@ -287,6 +298,7 @@ namespace testing {
 
             if(!test_interger_expression_helper(infix_statement->right, test.right_value))
                 throw std::runtime_error("infix right did not match");
+                */
         }
 
         pass = true;
@@ -342,17 +354,59 @@ namespace testing {
 
 
 
+    bool test_identifier_expression_helper(Expression* expression, const std::string& value) {
+        Identifier* idenifier = dynamic_cast<Identifier*>(expression);
+
+        if(idenifier->value != value) 
+            return false;
+
+        if(idenifier->token_literal() != value) 
+            return false;
+
+        return true;
+
+    }
 
 
 
+    bool test_literal_expression(Expression* expression, int value) {
+        return test_interger_expression_helper(expression, value);
+
+    }
+
+    bool test_literal_expression(Expression* expression, const std::string& value) {
+        return test_literal_expression(expression, value);
+
+    }
 
 
+    bool test_infix_expression(
+            Expression* expression,
+            int left,
+            const std::string& operator_,
+            int right
+            ) {
+
+            InfixTokenExpression* infix_statement = dynamic_cast<InfixTokenExpression*>(expression);
 
 
+            if(!test_literal_expression(infix_statement->left, left)) {
+                std::cerr << "infix left did not match\n" ;
+                return false;
+            }
 
+            if(infix_statement->operator_ != operator_) {
+                std::cerr << "infix operator did not match\n";
+                return false;
+            }
 
+            if(!test_literal_expression(infix_statement->right, right)) {
+                std::cerr << "infix right did not match\n";
+                return false;
+            }
 
-
+        return true;
+    }
 
 
 

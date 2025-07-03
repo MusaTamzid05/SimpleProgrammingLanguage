@@ -452,17 +452,17 @@ namespace testing {
 
 
             if(!test_literal_expression(infix_statement->left, left)) {
-                std::cerr << "infix left did not match\n" ;
+                std::cerr << "infix left did not match got " << infix_statement->left << " expected " << left << "\n";
                 return false;
             }
 
             if(infix_statement->operator_ != operator_) {
-                std::cerr << "infix operator did not match\n";
+                std::cerr << "infix operator did not match got " << infix_statement->operator_ << " expected " << operator_ << "\n";
                 return false;
             }
 
             if(!test_literal_expression(infix_statement->right, right)) {
-                std::cerr << "infix right did not match\n";
+                std::cerr << "infix right did not match got " << infix_statement->right << " expected " << right << "\n";
                 return false;
             }
 
@@ -482,17 +482,17 @@ namespace testing {
 
 
             if(!test_literal_expression(infix_statement->left, left)) {
-                std::cerr << "infix left did not match\n" ;
+                std::cerr << "infix left did not match got " << infix_statement->left << " expected " << left << "\n";
                 return false;
             }
 
             if(infix_statement->operator_ != operator_) {
-                std::cerr << "infix operator did not match\n";
+                std::cerr << "infix operator did not match got " << infix_statement->operator_ << " expected " << operator_ << "\n";
                 return false;
             }
 
             if(!test_literal_expression(infix_statement->right, right)) {
-                std::cerr << "infix right did not match\n";
+                std::cerr << "infix right did not match got " << infix_statement->right << " expected " << right << "\n";
                 return false;
             }
 

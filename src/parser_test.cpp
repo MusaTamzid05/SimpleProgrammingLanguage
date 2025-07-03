@@ -242,33 +242,89 @@ namespace testing {
         struct TestData {
             TestData(
                     const std::string& input,
+                    const std::string& operator_
+                    ):input(input),
+            operator_(operator_) {}
+
+            virtual void run(Expression* expression) = 0;
+
+            std::string input;
+            std::string operator_;
+        };
+
+        struct TestDataInt : TestData {
+            TestDataInt(
+                    const std::string& input,
                     int left_value,
                     const std::string& operator_,
                     int right_value
-                    ):input(input),
+                    ):TestData(input, operator_),
             left_value(left_value),
-            operator_(operator_),
             right_value(right_value) {}
 
-            std::string input;
+            void run(Expression* expression) {
+
+            if(!test_infix_expression(
+                        expression,
+                        left_value,
+                        operator_,
+                        right_value
+                        ))  
+
+                throw std::runtime_error("could not parse infix expression");
+
+            }
+
             int left_value;
-            std::string operator_;
             int right_value;
+
         };
 
-        std::vector<TestData> tests;
-        tests.push_back(TestData("5 + 5", 5, "+" , 5));
-        tests.push_back(TestData("5 - 5", 5, "-" , 5));
-        tests.push_back(TestData("5 * 5", 5, "*", 5));
-        tests.push_back(TestData("5 / 5", 5, "/", 5));
-        tests.push_back(TestData("5 > 5", 5, ">", 5));
-        tests.push_back(TestData("5 < 5", 5, "<", 5));
-        tests.push_back(TestData("5 == 5", 5, "==", 5));
-        tests.push_back(TestData("5 != 5", 5, "!=", 5));
 
-        for(TestData test : tests) {
+        struct TestDataBool : TestData {
+            TestDataBool(
+                    const std::string& input,
+                    bool left_value,
+                    const std::string& operator_,
+                    bool right_value
+                    ):TestData(input, operator_),
+            left_value(left_value),
+            right_value(right_value) {}
 
-            Lexer* lexer = new Lexer(test.input);
+            void run(Expression* expression) {
+
+            if(!test_infix_expression(
+                        expression,
+                        left_value,
+                        operator_,
+                        right_value
+                        ))  
+
+                throw std::runtime_error("could not parse infix expression");
+
+            }
+
+            bool left_value;
+            bool right_value;
+
+        };
+
+        std::vector<TestData*> tests;
+        tests.push_back(new TestDataInt("5 + 5", 5, "+" , 5));
+        tests.push_back(new TestDataInt("5 - 5", 5, "-" , 5));
+        tests.push_back(new TestDataInt("5 * 5", 5, "*", 5));
+        tests.push_back(new TestDataInt("5 / 5", 5, "/", 5));
+        tests.push_back(new TestDataInt("5 > 5", 5, ">", 5));
+        tests.push_back(new TestDataInt("5 < 5", 5, "<", 5));
+        tests.push_back(new TestDataInt("5 == 5", 5, "==", 5));
+        tests.push_back(new TestDataInt("5 != 5", 5, "!=", 5));
+        tests.push_back(new TestDataBool("true == true", true, "==", true));
+        tests.push_back(new TestDataBool("false == false", false, "==", false));
+        tests.push_back(new TestDataBool("true != false", true, "!=", false));
+
+        for(TestData* test : tests) {
+
+            Lexer* lexer = new Lexer(test->input);
             Parser* parser = new Parser(lexer);
             Program* program = parser->parse_program();
 
@@ -276,29 +332,9 @@ namespace testing {
                 throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
 
             ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
-
-            if(!test_infix_expression(
-                        expression_statement->expression,
-                        test.left_value,
-                        test.operator_,
-                        test.right_value
-                        ))  
-
-                throw std::runtime_error("could not parse infix expression");
-
-            /*
-            InfixTokenExpression* infix_statement = dynamic_cast<InfixTokenExpression*>(expression_statement->expression);
+            test->run(expression_statement->expression);
 
 
-            if(!test_interger_expression_helper(infix_statement->left, test.left_value))
-                throw std::runtime_error("infix left did not match");
-
-            if(infix_statement->operator_ != test.operator_)
-                throw std::runtime_error("infix operator did not match");
-
-            if(!test_interger_expression_helper(infix_statement->right, test.right_value))
-                throw std::runtime_error("infix right did not match");
-                */
         }
 
         pass = true;
@@ -323,6 +359,8 @@ namespace testing {
         };
 
         std::vector<OperatorPrecedenceTestData> tests = {
+			{"true", "true"},
+			{"false", "false"},
 			{"-a * b", "((-a) * b)"},
 			{"!-a", "(!(-a))"},
 			{"a + b + c", "((a + b) + c)"},
@@ -368,6 +406,24 @@ namespace testing {
     }
 
 
+    bool test_boolean_expression_helper(Expression* expression, bool  value) {
+        BooleanExpression* boolean_exp = dynamic_cast<BooleanExpression*>(expression);
+
+        if(boolean_exp->value != value) 
+            return false;
+
+        std::string value_str = value == true ? "true" : "false";
+
+
+        if(boolean_exp->token_literal() != value_str) 
+            return false;
+
+        return true;
+
+    }
+
+
+
 
     bool test_literal_expression(Expression* expression, int value) {
         return test_interger_expression_helper(expression, value);
@@ -375,7 +431,12 @@ namespace testing {
     }
 
     bool test_literal_expression(Expression* expression, const std::string& value) {
-        return test_literal_expression(expression, value);
+        return test_identifier_expression_helper(expression, value);
+
+    }
+
+    bool test_literal_expression(Expression* expression, bool  value) {
+        return test_boolean_expression_helper(expression, value);
 
     }
 
@@ -410,8 +471,33 @@ namespace testing {
 
 
 
+    bool test_infix_expression(
+            Expression* expression,
+            bool left,
+            const std::string& operator_,
+            bool right
+            ) {
+
+            InfixTokenExpression* infix_statement = dynamic_cast<InfixTokenExpression*>(expression);
 
 
+            if(!test_literal_expression(infix_statement->left, left)) {
+                std::cerr << "infix left did not match\n" ;
+                return false;
+            }
+
+            if(infix_statement->operator_ != operator_) {
+                std::cerr << "infix operator did not match\n";
+                return false;
+            }
+
+            if(!test_literal_expression(infix_statement->right, right)) {
+                std::cerr << "infix right did not match\n";
+                return false;
+            }
+
+        return true;
+    }
 
 
 

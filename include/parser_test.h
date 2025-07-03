@@ -63,15 +63,24 @@ namespace testing {
 
     bool test_interger_expression_helper(Expression* expression, int value);
     bool test_identifier_expression_helper(Expression* expression, const std::string& value);
+    bool test_boolean_expression_helper(Expression* expression, bool value);
 
     bool test_literal_expression(Expression* expression, int value);
     bool test_literal_expression(Expression* expression, const std::string& value);
+    bool test_literal_expression(Expression* expression, bool  value);
 
     bool test_infix_expression(
             Expression* expression,
             int left,
             const std::string& operator_,
             int right
+            );
+
+    bool test_infix_expression(
+            Expression* expression,
+            bool left,
+            const std::string& operator_,
+            bool right
             );
 }
 

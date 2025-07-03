@@ -78,6 +78,27 @@ Expression* InfixTokenExpressionParser::parse(Expression* left) {
 }
 
 
+BooleanExpressionParser::BooleanExpressionParser(Parser* parser):
+    parser(parser) {
+
+    }
+
+
+BooleanExpressionParser::~BooleanExpressionParser() {}
+
+
+
+Expression* BooleanExpressionParser::parse(const Token& token) {
+    return new BooleanExpression(token, parser->current_token_is(token_type::TRUE));
+}
+
+
+
+
+
+
+
+
 
 
 

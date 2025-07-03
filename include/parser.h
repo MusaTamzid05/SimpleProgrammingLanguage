@@ -37,6 +37,9 @@ struct Parser {
     bool peek_token_is(const std::string& token_type) const;
     void peek_error(const std::string& token_type);
 
+
+    bool current_token_is(const std::string& token_type) const;
+
     Precedence peek_precedence() const;
     Precedence current_precedence() const;
 

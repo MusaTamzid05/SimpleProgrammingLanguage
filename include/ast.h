@@ -133,6 +133,19 @@ struct InfixTokenExpression : Expression {
     Expression* right;
 };
 
+struct BooleanExpression : Expression {
+    BooleanExpression(const Token& token, bool value);
+    virtual ~BooleanExpression();
+
+    std::string token_literal() const;
+    std::string string() const;
+
+    Token token;
+    bool value;
+
+
+};
+
 
 
 #endif

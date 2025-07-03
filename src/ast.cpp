@@ -191,6 +191,28 @@ std::string InfixTokenExpression::string() const {
 
 
 
+BooleanExpression::BooleanExpression(const Token& token, bool value):
+    token(token), value(value) {
+
+    }
+
+BooleanExpression::~BooleanExpression() {
+
+}
+
+
+
+
+std::string BooleanExpression::token_literal() const {
+    return token.literal;
+}
+
+std::string BooleanExpression::string() const {
+    return token.literal;
+}
+
+
+
 
 
 

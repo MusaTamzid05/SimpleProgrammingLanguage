@@ -20,6 +20,9 @@ Parser::Parser(Lexer* lexer):lexer(lexer) {
     prefix_expression_parsers[token_type::BANG] = new PrefixTokenExpressionParser(this);
     prefix_expression_parsers[token_type::MINUS] = new PrefixTokenExpressionParser(this);
 
+    prefix_expression_parsers[token_type::TRUE] = new BooleanExpressionParser(this);
+    prefix_expression_parsers[token_type::FALSE] = new BooleanExpressionParser(this);
+
 
     infix_expression_parsers[token_type::PLUS] = new InfixTokenExpressionParser(this);
     infix_expression_parsers[token_type::MINUS] = new InfixTokenExpressionParser(this);
@@ -132,6 +135,11 @@ bool Parser::expect_peek(const std::string& token_type) {
 void Parser::peek_error(const std::string& token_type)  {
     std::string message = "Expect peek token to be " + token_type + " got " + peek_token.type;
     error_messages.push_back(message);
+}
+
+
+bool Parser::current_token_is(const std::string& token_type) const {
+    return current_token.type == token_type;
 }
 
 void Parser::next_token() {

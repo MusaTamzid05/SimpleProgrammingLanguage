@@ -36,6 +36,8 @@ struct PrefixTokenExpressionParser : PrefixExpressionParser {
 
 };
 
+
+
 struct InfixTokenExpressionParser {
     InfixTokenExpressionParser(Parser* parser);
     virtual ~InfixTokenExpressionParser();
@@ -44,5 +46,18 @@ struct InfixTokenExpressionParser {
     Parser* parser;
 
 };
+
+
+struct BooleanExpressionParser: PrefixExpressionParser {
+    BooleanExpressionParser(Parser* parser);
+    virtual ~BooleanExpressionParser();
+
+    Expression* parse(const Token& token);
+    Parser* parser;
+
+};
+
+
+
 
 #endif

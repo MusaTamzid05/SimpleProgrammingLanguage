@@ -191,22 +191,69 @@ namespace testing {
         struct TestData {
             TestData(
                     const std::string& input,
-                    const std::string& operator_,
-                    int value
-                    ):input(input), operator_(operator_), value(value) {}
+                    const std::string& operator_
+                    ): input(input), operator_(operator_) {}
 
             std::string input;
             std::string operator_;
+
+            virtual void run(Expression* expression) = 0;
+        };
+
+
+        struct TestDataInt : TestData {
+            TestDataInt(
+                    const std::string& input,
+                    const std::string& operator_,
+                    int value
+                    ):TestData(input, operator_), value(value) {}
+
+            void run(Expression* expression) {
+                PrefixTokenExpression* prefix_statement = dynamic_cast<PrefixTokenExpression*>(expression);
+
+                if(prefix_statement->operator_ != operator_)
+                    throw std::runtime_error("Expected prefix_token_expression.operator_ to be " + operator_ + " got " + prefix_statement->operator_);
+
+                if(!test_literal_expression(prefix_statement->right, value))
+                    throw std::runtime_error("prefix_token_expression.value did not match");
+
+            }
+
             int value;
         };
 
-        std::vector<TestData> tests;
-        tests.push_back(TestData("!3", "!", 3));
-        tests.push_back(TestData("-7", "-", 7));
 
-        for(TestData test : tests) {
+        struct TestDataBool: TestData {
+            TestDataBool(
+                    const std::string& input,
+                    const std::string& operator_,
+                    bool value
+                    ):TestData(input, operator_), value(value) {}
 
-            Lexer* lexer = new Lexer(test.input);
+            void run(Expression* expression) {
+                PrefixTokenExpression* prefix_statement = dynamic_cast<PrefixTokenExpression*>(expression);
+
+                if(prefix_statement->operator_ != operator_)
+                    throw std::runtime_error("Expected prefix_token_expression.operator_ to be " + operator_ + " got " + prefix_statement->operator_);
+
+                if(!test_literal_expression(prefix_statement->right, value))
+                    throw std::runtime_error("prefix_token_expression.value did not match");
+
+            }
+
+            bool value;
+        };
+
+
+        std::vector<TestData*> tests;
+        tests.push_back(new TestDataInt("!3", "!", 3));
+        tests.push_back(new TestDataInt("-7", "-", 7));
+        tests.push_back(new TestDataBool("!true", "!", true));
+        tests.push_back(new TestDataBool("!false", "!", false));
+
+        for(TestData* test : tests) {
+
+            Lexer* lexer = new Lexer(test->input);
             Parser* parser = new Parser(lexer);
             Program* program = parser->parse_program();
 
@@ -214,13 +261,7 @@ namespace testing {
                 throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
 
             ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
-            PrefixTokenExpression* prefix_statement = dynamic_cast<PrefixTokenExpression*>(expression_statement->expression);
-
-            if(prefix_statement->operator_ != test.operator_)
-                throw std::runtime_error("Expected prefix_token_expression.operator_ to be " + test.operator_ + " got " + prefix_statement->operator_);
-
-            if(!test_interger_expression_helper(prefix_statement->right, test.value))
-                throw std::runtime_error("prefix_token_expression.value did not match");
+            test->run(expression_statement->expression);
         }
 
         pass = true;

@@ -540,6 +540,97 @@ namespace testing {
         return true;
     }
 
+    bool test_infix_expression(
+            Expression* expression,
+            const std::string& left,
+            const std::string& operator_,
+            const std::string& right
+            ) {
+
+            InfixTokenExpression* infix_statement = dynamic_cast<InfixTokenExpression*>(expression);
+
+
+            if(!test_literal_expression(infix_statement->left, left)) {
+                std::cerr << "infix left did not match got " << infix_statement->left << " expected " << left << "\n";
+                return false;
+            }
+
+            if(infix_statement->operator_ != operator_) {
+                std::cerr << "infix operator did not match got " << infix_statement->operator_ << " expected " << operator_ << "\n";
+                return false;
+            }
+
+            if(!test_literal_expression(infix_statement->right, right)) {
+                std::cerr << "infix right did not match got " << infix_statement->right << " expected " << right << "\n";
+                return false;
+            }
+
+        return true;
+    }
+
+
+
+    IfExpressionTest::IfExpressionTest():TestCase("If Test") {
+
+    }
+
+    IfExpressionTest::~IfExpressionTest() {
+
+    }
+
+    void IfExpressionTest::run() {
+        std::string input = "if(x > y) { x }";
+
+        Lexer* lexer = new Lexer(input);
+        Parser* parser = new Parser(lexer);
+        Program* program = parser->parse_program();
+
+        if(program->statements.size() != 1) 
+            throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
+
+        ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+        IfExpression* if_expression = dynamic_cast<IfExpression*>(expression_statement->expression);
+
+        if(!test_infix_expression(
+                    if_expression->condition,
+                    std::string("x"),
+                    ">", 
+                    std::string("y"))) 
+            throw std::runtime_error("If condition parsing failed\n");
+
+        int consequence_size = if_expression->consequence->statements.size();
+
+        if(consequence_size != 1) 
+            throw std::runtime_error("Expected 1 consequence, got " + std::to_string(consequence_size));
+
+
+        expression_statement = dynamic_cast<ExpressionStatement*>(if_expression->consequence->statements[0]);
+
+        if(!test_identifier_expression_helper(expression_statement->expression, std::string("x")))
+            throw std::runtime_error("if identifer failed ");
+
+        pass = true;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

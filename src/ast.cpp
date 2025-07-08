@@ -212,10 +212,68 @@ std::string BooleanExpression::string() const {
 }
 
 
+BlockStatement::BlockStatement(const Token& token):
+    token(token) {
+
+}
 
 
+BlockStatement::~BlockStatement() {
+
+}
 
 
+std::string BlockStatement::token_literal() const {
+    return token.literal;
+}
+
+
+std::string BlockStatement::string() const {
+    std::string output = "";
+
+    for(Statement* statement : statements)
+        output += statement->string() + " ";
+
+    return output;
+
+}
+
+
+IfExpression::IfExpression(const Token& token):
+    token(token),
+    condition(nullptr),
+    consequence(nullptr),
+    alternative(nullptr) {
+
+    }
+
+
+IfExpression::~IfExpression() {
+
+}
+
+std::string IfExpression::token_literal() const {
+    return token.literal;
+}
+
+
+std::string IfExpression::string() const {
+    std::string output = "";
+    output += "if ";
+    output += condition->string();
+    output += " ";
+
+    output += consequence->string();
+    output += " ";
+
+    if(alternative != nullptr) {
+        output += "else";
+        output += alternative->string();
+    }
+
+    return output;
+
+}
 
 
 

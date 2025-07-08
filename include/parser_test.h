@@ -61,6 +61,15 @@ namespace testing {
 
     };
 
+    struct IfExpressionTest : TestCase {
+        IfExpressionTest();
+        virtual ~IfExpressionTest();
+
+        virtual void run();
+
+    };
+
+
     bool test_interger_expression_helper(Expression* expression, int value);
     bool test_identifier_expression_helper(Expression* expression, const std::string& value);
     bool test_boolean_expression_helper(Expression* expression, bool value);
@@ -68,6 +77,13 @@ namespace testing {
     bool test_literal_expression(Expression* expression, int value);
     bool test_literal_expression(Expression* expression, const std::string& value);
     bool test_literal_expression(Expression* expression, bool  value);
+
+    bool test_infix_expression(
+            Expression* expression,
+            const std::string& left,
+            const std::string& operator_,
+            const std::string& right
+            );
 
     bool test_infix_expression(
             Expression* expression,

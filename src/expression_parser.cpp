@@ -94,7 +94,65 @@ Expression* BooleanExpressionParser::parse(const Token& token) {
 
 
 
+IfExpressionParser::IfExpressionParser(Parser* parser):
+    parser(parser) {
 
+    }
+
+IfExpressionParser::~IfExpressionParser() {
+
+}
+    
+
+Expression* IfExpressionParser::parse(const Token& token) {
+    IfExpression* if_expression = new IfExpression(token);
+
+    // If (condition) { consequence } else { alternative }
+
+    if(!parser->expect_peek(token_type::LPAREN))
+        return nullptr;
+
+    parser->next_token();
+    if_expression->condition = parser->parse_expression(Parser::Precedence::LOWEST);
+
+    if(!parser->expect_peek(token_type::RPAREN))
+        return nullptr;
+
+    if(!parser->expect_peek(token_type::LBRACE))
+        return nullptr;
+
+    BlockStatementParser* block_parser = new BlockStatementParser(parser);
+    if_expression->consequence = block_parser->parse(parser->current_token);
+
+    return if_expression;
+
+}
+
+BlockStatementParser::BlockStatementParser(Parser* parser): parser(parser) {
+
+}
+
+BlockStatementParser::~BlockStatementParser() {
+
+}
+
+
+BlockStatement* BlockStatementParser::parse(const Token& token) {
+    BlockStatement* block = new BlockStatement(token);
+    parser->next_token();
+
+    while(!parser->current_token_is(token_type::RBRACE)) {
+        Statement* statement = parser->parse_statement();
+
+        if(statement != nullptr)
+            block->statements.push_back(statement);
+
+        parser->next_token();
+
+    }
+
+    return block;
+}
 
 
 

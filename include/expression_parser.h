@@ -36,6 +36,24 @@ struct PrefixTokenExpressionParser : PrefixExpressionParser {
 
 };
 
+struct BlockStatementParser {
+    BlockStatementParser(Parser* parser);
+    virtual ~BlockStatementParser();
+
+    BlockStatement* parse(const Token& token);
+
+    Parser* parser;
+
+};
+
+struct IfExpressionParser  : PrefixExpressionParser {
+    IfExpressionParser(Parser* parser);
+    virtual ~IfExpressionParser();
+
+    Expression* parse(const Token& token);
+    Parser* parser;
+
+};
 
 
 struct InfixTokenExpressionParser {

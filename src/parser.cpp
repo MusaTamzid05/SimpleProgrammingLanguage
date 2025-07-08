@@ -24,6 +24,9 @@ Parser::Parser(Lexer* lexer):lexer(lexer) {
     prefix_expression_parsers[token_type::FALSE] = new BooleanExpressionParser(this);
 
 
+    prefix_expression_parsers[token_type::IF] = new IfExpressionParser(this);
+
+
     infix_expression_parsers[token_type::PLUS] = new InfixTokenExpressionParser(this);
     infix_expression_parsers[token_type::MINUS] = new InfixTokenExpressionParser(this);
     infix_expression_parsers[token_type::SLASH] = new InfixTokenExpressionParser(this);

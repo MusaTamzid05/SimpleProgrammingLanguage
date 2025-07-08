@@ -142,9 +142,59 @@ struct BooleanExpression : Expression {
 
     Token token;
     bool value;
+};
+
+struct BlockStatement : Expression {
+    // { this is a block_statement }
+    BlockStatement(const Token& token);
+    virtual ~BlockStatement();
+
+    std::string token_literal() const;
+    std::string string() const;
+
+    Token token;
+    std::vector<Statement*> statements;
+
+};
+
+
+struct IfExpression : Expression  {
+    // If (condition) { consequence } else { alternative }
+
+    IfExpression(const Token& token);
+    ~IfExpression();
+
+    std::string token_literal() const;
+    std::string string() const;
+
+
+    Token token;
+    Expression* condition;
+    BlockStatement* consequence;
+    BlockStatement* alternative;
 
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

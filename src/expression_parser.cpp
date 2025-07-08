@@ -124,6 +124,17 @@ Expression* IfExpressionParser::parse(const Token& token) {
     BlockStatementParser* block_parser = new BlockStatementParser(parser);
     if_expression->consequence = block_parser->parse(parser->current_token);
 
+
+    if(parser->peek_token_is(token_type::ELSE)) {
+        parser->next_token();
+
+        if(!parser->expect_peek(token_type::LBRACE))
+            return nullptr;
+
+        if_expression->alternative = block_parser->parse(parser->current_token);
+
+    }
+
     return if_expression;
 
 }

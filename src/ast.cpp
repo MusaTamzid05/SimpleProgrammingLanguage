@@ -267,7 +267,7 @@ std::string IfExpression::string() const {
     output += " ";
 
     if(alternative != nullptr) {
-        output += "else";
+        output += "else ";
         output += alternative->string();
     }
 

@@ -70,6 +70,15 @@ namespace testing {
     };
 
 
+    struct IfElseExpressionTest : TestCase {
+        IfElseExpressionTest();
+        virtual ~IfElseExpressionTest();
+
+        virtual void run();
+
+    };
+
+
     bool test_interger_expression_helper(Expression* expression, int value);
     bool test_identifier_expression_helper(Expression* expression, const std::string& value);
     bool test_boolean_expression_helper(Expression* expression, bool value);

@@ -34,6 +34,7 @@ void run_tests() {
     tests.push_back(new testing::InfixTokenExpressionTest());
     tests.push_back(new testing::OperatorPrecedenceTest());
     tests.push_back(new testing::IfExpressionTest());
+    tests.push_back(new testing::IfElseExpressionTest());
 
     for(testing::TestCase* test : tests) {
         try {

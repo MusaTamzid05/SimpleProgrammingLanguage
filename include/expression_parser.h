@@ -26,6 +26,15 @@ struct IntegerExpressionParser : PrefixExpressionParser {
 
 };
 
+struct GroupExpressionParser : PrefixExpressionParser {
+    GroupExpressionParser(Parser* parser);
+    virtual ~GroupExpressionParser();
+
+    Expression* parse(const Token& token);
+    Parser* parser;
+
+};
+
 
 struct PrefixTokenExpressionParser : PrefixExpressionParser {
     PrefixTokenExpressionParser(Parser* parser);

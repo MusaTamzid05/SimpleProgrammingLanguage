@@ -29,6 +29,8 @@ IntegerExpressionParser::~IntegerExpressionParser() {
 }
 
 
+
+
 Expression* IntegerExpressionParser::parse(const Token& token) {
     IntegerLiteral* literal = new IntegerLiteral(token);
     int value = stoi(token.literal);
@@ -36,6 +38,29 @@ Expression* IntegerExpressionParser::parse(const Token& token) {
     return literal;
 
 }
+
+
+GroupExpressionParser::GroupExpressionParser(Parser* parser):parser(parser) {
+
+}
+
+GroupExpressionParser::~GroupExpressionParser() {
+
+}
+
+
+Expression* GroupExpressionParser::parse(const Token& token) {
+    // (1 + 2) 
+    
+    parser->next_token();
+    Expression* expression = parser->parse_expression(Parser::Precedence::LOWEST);
+
+    if(!parser->expect_peek(token_type::RPAREN))
+        return nullptr;
+    return expression;
+
+}
+
 
 PrefixTokenExpressionParser::PrefixTokenExpressionParser(Parser* parser):parser(parser) {
 }

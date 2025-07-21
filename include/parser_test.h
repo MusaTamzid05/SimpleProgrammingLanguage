@@ -112,7 +112,12 @@ namespace testing {
         FunctionalLiteralTest();
         virtual ~FunctionalLiteralTest();
         virtual void run();
+    };
 
+    struct FunctionParamaterTest : TestCase {
+        FunctionParamaterTest();
+        virtual ~FunctionParamaterTest();
+        virtual void run();
     };
 }
 

@@ -726,17 +726,52 @@ namespace testing {
         pass = true;
     }
 
+    FunctionParamaterTest::FunctionParamaterTest():TestCase("Functional Parameter Test") {
+
+    }
 
 
+    FunctionParamaterTest::~FunctionParamaterTest() {
+
+    }
+
+    void FunctionParamaterTest::run() {
+        struct TestData {
+            TestData(const std::string& input, const std::vector<std::string>& parameters):
+                input(input),
+                parameters(parameters) {}
+
+            virtual ~TestData() {}
+
+            std::string input;
+            std::vector<std::string> parameters;
 
 
+        };
 
+        std::vector<TestData> tests;
+        tests.push_back(TestData("fn(){}", {}));
+        tests.push_back(TestData("fn(x){}", {"x"}));
+        tests.push_back(TestData("fn(x,y,z){}", {"x", "y", "z"}));
 
+        for(TestData test : tests) {
+            Lexer* lexer = new Lexer(test.input);
+            Parser* parser = new Parser(lexer);
+            Program* program = parser->parse_program();
 
+            ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+            FunctionalLiteral* func_literal = dynamic_cast<FunctionalLiteral*>(expression_statement->expression);
 
+            int parameter_count = func_literal->parameters.size();
 
+            if(parameter_count != test.parameters.size()) 
+                throw std::runtime_error("Function parameter count does not match got " + std::to_string(parameter_count) + " expected " + std::to_string(test.parameters.size()));
 
+        }
 
+        pass = true;
+
+    }
 
 
 }

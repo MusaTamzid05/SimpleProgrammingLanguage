@@ -36,6 +36,7 @@ void run_tests() {
     tests.push_back(new testing::IfExpressionTest());
     tests.push_back(new testing::IfElseExpressionTest());
     tests.push_back(new testing::FunctionalLiteralTest());
+    tests.push_back(new testing::FunctionParamaterTest());
 
     for(testing::TestCase* test : tests) {
         try {

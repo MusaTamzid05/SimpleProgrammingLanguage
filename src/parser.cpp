@@ -26,6 +26,7 @@ Parser::Parser(Lexer* lexer):lexer(lexer) {
 
     prefix_expression_parsers[token_type::IF] = new IfExpressionParser(this);
     prefix_expression_parsers[token_type::LPAREN] = new GroupExpressionParser(this);
+    prefix_expression_parsers[token_type::FUNCTION] = new FunctionalLiteralParser(this);
 
 
     infix_expression_parsers[token_type::PLUS] = new InfixTokenExpressionParser(this);

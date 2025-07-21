@@ -678,8 +678,53 @@ namespace testing {
     }
 
 
+    FunctionalLiteralTest::FunctionalLiteralTest():TestCase("Functional Literal Test") {
+
+    }
 
 
+    FunctionalLiteralTest::~FunctionalLiteralTest() {
+
+    }
+
+    void FunctionalLiteralTest::run() {
+        std::string input = "fn(x,y) { x + y; }";
+        Lexer* lexer = new Lexer(input);
+        Parser* parser = new Parser(lexer);
+        Program* program = parser->parse_program();
+
+        if(program->statements.size() != 1) 
+            throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
+
+        ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+        FunctionalLiteral* func_literal = dynamic_cast<FunctionalLiteral*>(expression_statement->expression);
+
+        int parameter_count = func_literal->parameters.size();
+
+        if(parameter_count != 2) 
+            throw std::runtime_error("Expected 2 parameters, got " + std::to_string(parameter_count));
+
+        if(!test_literal_expression(func_literal->parameters[0], std::string("x"))) 
+            throw std::runtime_error("Expected 'x' as  parameters, got " + func_literal->parameters[0]->string());
+
+        if(!test_literal_expression(func_literal->parameters[1], std::string("y"))) 
+            throw std::runtime_error("Expected 'y' as  parameters, got " + func_literal->parameters[1]->string());
+
+        
+        int block_statement_count = func_literal->body->statements.size();
+
+        if(block_statement_count != 1) 
+            throw std::runtime_error("Expected 1 block statement , got " + std::to_string(block_statement_count));
+
+        
+        expression_statement = dynamic_cast<ExpressionStatement*>(func_literal->body->statements[0]);
+
+
+        if(test_infix_expression(expression_statement->expression, std::string("x"), "+", std::string("y")) == false)
+            throw std::runtime_error("Function BlockStatement infix expression failed" );
+
+        pass = true;
+    }
 
 
 

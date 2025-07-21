@@ -35,6 +35,7 @@ void run_tests() {
     tests.push_back(new testing::OperatorPrecedenceTest());
     tests.push_back(new testing::IfExpressionTest());
     tests.push_back(new testing::IfElseExpressionTest());
+    tests.push_back(new testing::FunctionalLiteralTest());
 
     for(testing::TestCase* test : tests) {
         try {

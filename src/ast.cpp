@@ -278,3 +278,31 @@ std::string IfExpression::string() const {
 
 
 
+FunctionalLiteral::FunctionalLiteral(const Token& token):
+    token(token) {
+
+    }
+
+
+FunctionalLiteral::~FunctionalLiteral() {
+
+}
+
+std::string FunctionalLiteral::token_literal() const {
+    return token.literal;
+}
+
+
+std::string FunctionalLiteral::string() const {
+    std::string output = "";
+    output += token.literal;
+    output += "(";
+
+    for(Identifier* identifer : parameters)
+        output += identifer->string();
+
+    output += ")";
+    output += body->string();
+    return output;
+
+}

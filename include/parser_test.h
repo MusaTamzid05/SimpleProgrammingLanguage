@@ -107,6 +107,13 @@ namespace testing {
             const std::string& operator_,
             bool right
             );
+
+    struct FunctionalLiteralTest : TestCase {
+        FunctionalLiteralTest();
+        virtual ~FunctionalLiteralTest();
+        virtual void run();
+
+    };
 }
 
 #endif

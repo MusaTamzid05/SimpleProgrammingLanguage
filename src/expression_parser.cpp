@@ -190,8 +190,69 @@ BlockStatement* BlockStatementParser::parse(const Token& token) {
     return block;
 }
 
+FunctionalLiteralParser::FunctionalLiteralParser(Parser* parser):parser(parser) {}
+FunctionalLiteralParser::~FunctionalLiteralParser() {}
 
 
+FunctionalLiteralParser::ParseParameterResponse  FunctionalLiteralParser::parse_parameters() const {
+    // (x, y)
+    ParseParameterResponse parse_parameter_response;
+
+    // handle when there is no paramaters => ()
+    if(parser->peek_token_is(token_type::RPAREN))  {
+        parse_parameter_response.success = true;
+        parser->next_token();
+        return parse_parameter_response;
+    }
+
+    parser->next_token(); // x
+    Identifier* identifier = new Identifier(parser->current_token, parser->current_token.literal);
+    parse_parameter_response.identifiers.push_back(identifier);
+
+    // ,y)
+    while(parser->peek_token_is(token_type::COMMA)) {
+        parser->next_token();
+        parser->next_token();
+
+        Identifier* identifier = new Identifier(parser->current_token, parser->current_token.literal);
+        parse_parameter_response.identifiers.push_back(identifier);
+
+    }
+
+    // y)
+    if(parser->expect_peek(token_type::RPAREN) == false)  {
+        parse_parameter_response.success = false;
+        return parse_parameter_response;
+
+    }
+
+    parse_parameter_response.success = true;
+    return parse_parameter_response;
+}
+
+Expression* FunctionalLiteralParser::parse(const Token& token) {
+    // fn(x, y) { x + y; }
+    FunctionalLiteral* func_literal = new FunctionalLiteral(token); // fn
+
+    if(parser->expect_peek(token_type::LPAREN) == false) 
+        return nullptr;
+
+    ParseParameterResponse parameter_parse_response = parse_parameters();
+
+    if(parameter_parse_response.success == false)
+        return nullptr;
+
+    func_literal->parameters = parameter_parse_response.identifiers; // (x, y) {x + y;}
+
+
+    if(parser->expect_peek(token_type::LBRACE) == false)  // { x + y; }
+        return nullptr;
+    
+    BlockStatementParser* block_parser = new BlockStatementParser(parser);
+    func_literal->body = block_parser->parse(parser->current_token);
+
+    return func_literal;
+}
 
 
 

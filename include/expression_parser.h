@@ -84,6 +84,26 @@ struct BooleanExpressionParser: PrefixExpressionParser {
 
 };
 
+struct FunctionalLiteralParser : PrefixExpressionParser {
+
+    // parsing parameter can fail, have to return
+    // something that can flag this, hense
+    // the data type below
+    struct ParseParameterResponse {
+        std::vector<Identifier*> identifiers;
+        bool success;
+    };
+
+
+    FunctionalLiteralParser(Parser* parser);
+    virtual ~FunctionalLiteralParser();
+
+    ParseParameterResponse  parse_parameters() const;
+
+    Expression* parse(const Token& token);
+    Parser* parser;
+};
+
 
 
 

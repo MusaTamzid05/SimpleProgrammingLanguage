@@ -177,7 +177,20 @@ struct IfExpression : Expression  {
 };
 
 
+struct FunctionalLiteral : Expression {
+    // fn(x,y) { x + y;}
+    FunctionalLiteral(const Token& token);
+    virtual ~FunctionalLiteral();
 
+
+    std::string token_literal() const;
+    std::string string() const;
+
+    Token token; // fn
+    std::vector<Identifier*> parameters; // (x, y)
+    BlockStatement* body; // { x + y; }
+
+};
 
 
 

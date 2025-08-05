@@ -194,7 +194,21 @@ struct FunctionalLiteral : Expression {
 
 
 
+struct CallExpression : Expression {
+    // test(x, y + z);
+    
+    CallExpression(const Token& token, Expression* function);
+    virtual ~CallExpression();
 
+    std::string token_literal() const;
+    std::string string() const;
+
+    Token token; // (
+    Expression* function;
+    std::vector<Expression*> arguments; 
+
+
+};
 
 
 

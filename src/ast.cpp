@@ -306,3 +306,51 @@ std::string FunctionalLiteral::string() const {
     return output;
 
 }
+
+
+CallExpression::CallExpression(const Token& token, Expression* function):
+    token(token),
+    function(function) {
+
+    }
+
+CallExpression::~CallExpression() {
+
+}
+
+
+
+
+std::string CallExpression::token_literal() const {
+    return token.literal;
+}
+
+std::string CallExpression::string() const {
+
+    std::vector<std::string> argument_list;
+
+    for(Expression* argument : arguments)
+        argument_list.push_back(argument->string());
+
+    std::string output = "";
+
+    output += function->string();
+    output += "(";
+
+    for(unsigned int i = 0; i <  argument_list.size(); i += 1)  {
+        output += argument_list[i];
+
+        if(i != argument_list.size() - 1)
+            output += ",";
+    }
+
+    output += ")";
+
+    return output;
+
+}
+
+
+
+
+

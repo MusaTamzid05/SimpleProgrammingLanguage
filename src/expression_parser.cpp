@@ -255,5 +255,57 @@ Expression* FunctionalLiteralParser::parse(const Token& token) {
 }
 
 
+CallExpressionParser::CallExpressionParser(Parser* parser):InfixTokenExpressionParser(parser) {
+
+}
+
+
+
+CallExpressionParser::~CallExpressionParser() {}
+
+
+Expression* CallExpressionParser::parse(Expression* left) {
+    CallExpression* call_expression = new CallExpression(parser->current_token, left);
+    ParseArgumentResult argument_result = parse_arguments();
+
+    if(argument_result.success == false)
+        return nullptr;
+
+    call_expression->arguments = argument_result.arguments;
+
+    return call_expression;
+}
+
+CallExpressionParser::ParseArgumentResult CallExpressionParser::parse_arguments() {
+    // (x, y +z, z + y);
+    ParseArgumentResult result;
+    // (
+    
+    if(parser->peek_token_is(token_type::RPAREN)) {
+        parser->next_token();
+        result.success = true;
+        return result;
+    }
+
+    parser->next_token(); // x,y + z, z + y);
+    result.arguments.push_back(parser->parse_expression(Parser::Precedence::LOWEST));
+
+    while(parser->peek_token_is(token_type::COMMA)) { // ,y + z, z + y)
+        parser->next_token(); //  y + z, z + y)
+        parser->next_token(); 
+        result.arguments.push_back(parser->parse_expression(Parser::Precedence::LOWEST));  //   z + y)
+    }
+
+    // );
+    
+    if(parser->expect_peek(token_type::RPAREN) == false) {
+        result.success = false;
+        return result;
+    }
+
+    result.success = true;
+    return result;
+}
+
 
 

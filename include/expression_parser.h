@@ -69,7 +69,7 @@ struct InfixTokenExpressionParser {
     InfixTokenExpressionParser(Parser* parser);
     virtual ~InfixTokenExpressionParser();
 
-    Expression* parse(Expression* left);
+    virtual Expression* parse(Expression* left);
     Parser* parser;
 
 };
@@ -103,6 +103,21 @@ struct FunctionalLiteralParser : PrefixExpressionParser {
     Expression* parse(const Token& token);
     Parser* parser;
 };
+
+
+struct CallExpressionParser : InfixTokenExpressionParser {
+    struct ParseArgumentResult {
+        std::vector<Expression*> arguments;
+        bool success;
+    };
+
+    CallExpressionParser(Parser* parser);
+    virtual ~CallExpressionParser();
+
+    Expression* parse(Expression* left);
+    ParseArgumentResult parse_arguments();
+};
+
 
 
 

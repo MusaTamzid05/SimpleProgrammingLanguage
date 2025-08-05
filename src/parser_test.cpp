@@ -773,5 +773,45 @@ namespace testing {
 
     }
 
+    CallExpressionTest::CallExpressionTest():TestCase("Call Expression Test") {
+
+    }
+
+    CallExpressionTest::~CallExpressionTest() {
+
+    }
+
+    void CallExpressionTest::run() {
+        std::string input = "add(1, 1 + 5, 7 * 5)";
+        Lexer* lexer = new Lexer(input);
+        Parser* parser = new Parser(lexer);
+        Program* program = parser->parse_program();
+
+        if(program->statements.size() != 1) 
+            throw std::runtime_error("Expected 1 statements, got " + std::to_string(program->statements.size()));
+
+        ExpressionStatement* expression_statement = dynamic_cast<ExpressionStatement*>(program->statements[0]);
+        CallExpression * call_expression = dynamic_cast<CallExpression*>(expression_statement->expression);
+
+        int argument_count = call_expression->arguments.size();
+
+        if(argument_count != 3) 
+            throw std::runtime_error("Expected 3 arguments, got " + std::to_string(argument_count));
+
+        if(!test_literal_expression(call_expression->arguments[0], 1)) 
+            throw std::runtime_error("First argument did not match in call expresion");
+
+
+        if(!test_infix_expression(call_expression->arguments[1], 1, "+", 5)) 
+            throw std::runtime_error("Second argument did not match in call expresion");
+
+        if(!test_infix_expression(call_expression->arguments[2], 7, "*", 5)) 
+            throw std::runtime_error("Third argument did not match in call expresion");
+
+        
+
+        pass = true;
+    }
+
 
 }

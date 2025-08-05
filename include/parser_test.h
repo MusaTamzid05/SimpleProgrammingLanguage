@@ -119,6 +119,12 @@ namespace testing {
         virtual ~FunctionParamaterTest();
         virtual void run();
     };
+
+    struct CallExpressionTest : TestCase {
+        CallExpressionTest();
+        virtual ~CallExpressionTest();
+        virtual void run();
+    };
 }
 
 #endif

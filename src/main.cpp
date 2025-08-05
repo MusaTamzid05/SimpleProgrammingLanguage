@@ -10,6 +10,7 @@ void run_tests();
 void run_repl();
 
 int main(int argc, char** argv) {
+
     if(argc == 2) {
         if(argv[1] == std::string("test")) 
             run_tests();
@@ -17,7 +18,6 @@ int main(int argc, char** argv) {
         return 0;
     }
     run_repl();
-
     return 0;
 }
 
@@ -37,6 +37,7 @@ void run_tests() {
     tests.push_back(new testing::IfElseExpressionTest());
     tests.push_back(new testing::FunctionalLiteralTest());
     tests.push_back(new testing::FunctionParamaterTest());
+    tests.push_back(new testing::CallExpressionTest());
 
     for(testing::TestCase* test : tests) {
         try {

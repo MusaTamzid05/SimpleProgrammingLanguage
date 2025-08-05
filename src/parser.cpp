@@ -9,6 +9,7 @@ std::map<std::string, Parser::Precedence> Parser::precedence_map = {
     {token_type::MINUS, Parser::Precedence::SUM },
     {token_type::SLASH, Parser::Precedence::PRODUCT},
     {token_type::ASTERISK, Parser::Precedence::PRODUCT},
+    {token_type::LPAREN, Parser::Precedence::CALL},
 };
 
 Parser::Parser(Lexer* lexer):lexer(lexer) {
@@ -37,6 +38,7 @@ Parser::Parser(Lexer* lexer):lexer(lexer) {
     infix_expression_parsers[token_type::NOT_EQ] = new InfixTokenExpressionParser(this);
     infix_expression_parsers[token_type::LT] = new InfixTokenExpressionParser(this);
     infix_expression_parsers[token_type::GT] = new InfixTokenExpressionParser(this);
+    infix_expression_parsers[token_type::LPAREN] = new CallExpressionParser(this);
 
 
 }
